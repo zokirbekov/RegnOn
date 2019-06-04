@@ -1,5 +1,6 @@
 package uz.zokirbekov.registration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.main_content)
     FrameLayout content;
+
+    QrFragment qrFragment = new QrFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.statistics) {
             switchFragment(new StatisticsFragment());
         } else if (id == R.id.qr) {
-            switchFragment(new QrFragment());
+            switchFragment(qrFragment);
         } else if (id == R.id.about) {
             switchFragment(new AboutFragment());
         } else if (id == R.id.logout) {
@@ -107,5 +110,11 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.main_content,fragment);
         transaction.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        qrFragment.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
