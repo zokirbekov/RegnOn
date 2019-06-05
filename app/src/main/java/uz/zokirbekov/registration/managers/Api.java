@@ -1,5 +1,7 @@
 package uz.zokirbekov.registration.managers;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -15,7 +17,7 @@ public interface Api {
     public Call<Person> getPerson(@Path("id") int id);
 
     @GET("/api/Person/user/{id}")
-    public Call<Person> getPersonUser(@Path("id") int id);
+    public Call<List<Person>> getPersonUser(@Path("id") int id);
 
     @POST("/api/Person/login")
     public Call<Person> getPersonByLogin(@Body RegistrationRequest request);

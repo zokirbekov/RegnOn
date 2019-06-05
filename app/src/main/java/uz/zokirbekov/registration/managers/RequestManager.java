@@ -1,5 +1,7 @@
 package uz.zokirbekov.registration.managers;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,11 +52,11 @@ public class RequestManager {
         });
     }
 
-    public void getPersonUser(int id, IResponse<Person> listener)
+    public void getPersonUser(int id, IResponse<List<Person>> listener)
     {
-        api.getPersonUser(id).enqueue(new Callback<Person>() {
+        api.getPersonUser(id).enqueue(new Callback<List<Person>>() {
             @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 if (response.isSuccessful())
                     listener.success(response.body());
                 else
@@ -62,7 +64,7 @@ public class RequestManager {
             }
 
             @Override
-            public void onFailure(Call<Person> call, Throwable t) {
+            public void onFailure(Call<List<Person>> call, Throwable t) {
                 listener.error(t.getMessage());
             }
         });
