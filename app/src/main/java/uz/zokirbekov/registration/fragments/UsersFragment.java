@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uz.zokirbekov.registration.App;
+import uz.zokirbekov.registration.MainActivity;
 import uz.zokirbekov.registration.R;
 import uz.zokirbekov.registration.adapters.UsersAdapter;
 import uz.zokirbekov.registration.managers.RequestManager;
@@ -34,6 +35,7 @@ public class UsersFragment extends Fragment implements RequestManager.IResponse<
         View v = inflater.inflate(R.layout.fragment_users,container,false);
         ButterKnife.bind(this,v);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        getUsers();
         return v;
     }
 
@@ -46,24 +48,29 @@ public class UsersFragment extends Fragment implements RequestManager.IResponse<
 
     private void initListView(List<Person> people)
     {
-        UsersAdapter adapter = new UsersAdapter(getContext(),people);
-        recyclerView.setAdapter(adapter);
+        if (people != null) {
+            UsersAdapter adapter = new UsersAdapter(getContext(), people);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     private void getUsers()
     {
         Person p = ((App)getContext().getApplicationContext()).getPerson();
         int id = p.getId();
+        ((MainActivity)getActivity()).isProgress(true);
         RequestManager.getInstance().getPersonUser(id,this);
     }
 
     @Override
     public void success(List<Person> object) {
         initListView(object);
+        ((MainActivity)getActivity()).isProgress(false);
     }
 
     @Override
     public void error(String msg) {
         Util.showSnackBar(getView(),msg);
+        ((MainActivity)getActivity()).isProgress(false);
     }
 }

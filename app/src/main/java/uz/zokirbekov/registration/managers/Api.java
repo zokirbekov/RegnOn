@@ -10,6 +10,7 @@ import retrofit2.http.Path;
 import uz.zokirbekov.registration.models.Person;
 import uz.zokirbekov.registration.models.PersonUser;
 import uz.zokirbekov.registration.models.RegistrationRequest;
+import uz.zokirbekov.registration.models.StatisticModel;
 
 public interface Api {
 
@@ -19,13 +20,16 @@ public interface Api {
     @GET("/api/Person/user/{id}")
     public Call<List<Person>> getPersonUser(@Path("id") int id);
 
+    @GET("/api/Person/statistic/{id}")
+    public Call<List<StatisticModel>> getStatistic(@Path("id") int id);
+
     @POST("/api/Person/login")
     public Call<Person> getPersonByLogin(@Body RegistrationRequest request);
 
     @POST("/api/Person/insert")
-    public Call insertPerson(@Body Person request);
+    public Call<String> insertPerson(@Body Person request);
 
     @POST("/api/Person/insertUser")
-    public Call insertPersonUser(@Body PersonUser request);
+    public Call<String> insertPersonUser(@Body PersonUser request);
 
 }

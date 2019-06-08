@@ -19,7 +19,7 @@ import uz.zokirbekov.registration.models.Person;
 import uz.zokirbekov.registration.utils.MD5;
 import uz.zokirbekov.registration.utils.Util;
 
-public class RegistrationFragment extends Fragment implements RequestManager.IResponse<Person> {
+public class RegistrationFragment extends Fragment implements RequestManager.IResponse<String> {
 
     @BindView(R.id.editText_surname)
     TextInputEditText editTextSurname;
@@ -48,11 +48,12 @@ public class RegistrationFragment extends Fragment implements RequestManager.IRe
 
         Person person = new Person();
         person.setName(editTextName.getText().toString().trim());
-        person.setName(editTextSurname.getText().toString().trim());
-        person.setName(editTextLogin.getText().toString().toLowerCase().trim());
+        person.setSurname(editTextSurname.getText().toString().trim());
+        person.setLogin(editTextLogin.getText().toString().toLowerCase().trim());
         person.setPassword(password);
         person.setPassport(passport);
 
+        ((RegistrationActivity)getActivity()).isProgress(true);
         RequestManager.getInstance().insertPerson(person, this);
     }
 
@@ -71,12 +72,14 @@ public class RegistrationFragment extends Fragment implements RequestManager.IRe
     }
 
     @Override
-    public void success(Person object) {
-        ((RegistrationActivity)getActivity()).goToMain(object);
+    public void success(String object) {
+        ((RegistrationActivity)getActivity()).isProgress(false);
+        //((RegistrationActivity)getActivity()).goToMain(object);
     }
 
     @Override
     public void error(String msg) {
+        ((RegistrationActivity)getActivity()).isProgress(false);
         Util.showSnackBar(getView(),msg);
     }
 }

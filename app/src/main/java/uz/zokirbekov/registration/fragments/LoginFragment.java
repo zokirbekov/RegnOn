@@ -47,6 +47,7 @@ public class LoginFragment extends Fragment implements RequestManager.IResponse<
         request.setLogin(login);
         request.setPassword(password);
 
+        ((RegistrationActivity)getActivity()).isProgress(true);
         RequestManager.getInstance().getPersonByLogin(request,this);
     }
 
@@ -59,11 +60,20 @@ public class LoginFragment extends Fragment implements RequestManager.IResponse<
 
     @Override
     public void success(Person object) {
-        ((RegistrationActivity)getActivity()).goToMain(object);
+        if (object != null) {
+            ((RegistrationActivity)getActivity()).goToMain(object);
+        }
+        else
+        {
+            Util.showSnackBar(getView(),"Login or password incorrect");
+        }
+        ((RegistrationActivity)getActivity()).isProgress(false);
+
     }
 
     @Override
     public void error(String msg) {
+        ((RegistrationActivity)getActivity()).isProgress(false);
         Util.showSnackBar(getView(),msg);
     }
 }

@@ -8,13 +8,15 @@ import java.util.Date;
 
 public class Person implements Parcelable {
 
-    private int Id;
+    private int id;
     private String name;
     private String surname;
     private String login;
     private String password;
     private String passport;
     private Date create_date;
+    private int ball;
+
 
     public Person()
     {
@@ -22,12 +24,13 @@ public class Person implements Parcelable {
     }
 
     protected Person(Parcel in) {
-        Id = in.readInt();
+        id = in.readInt();
         name = in.readString();
         surname = in.readString();
         login = in.readString();
         password = in.readString();
         passport = in.readString();
+        ball = in.readInt();
     }
 
     public static final Creator<Person> CREATOR = new Creator<Person>() {
@@ -43,11 +46,11 @@ public class Person implements Parcelable {
     };
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        id = id;
     }
 
     public String getName() {
@@ -105,11 +108,20 @@ public class Person implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(Id);
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(surname);
         dest.writeString(login);
         dest.writeString(password);
         dest.writeString(passport);
+        dest.writeInt(ball);
+    }
+
+    public int getBall() {
+        return ball;
+    }
+
+    public void setBall(int ball) {
+        this.ball = ball;
     }
 }

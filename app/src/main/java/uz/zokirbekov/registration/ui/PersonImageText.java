@@ -9,6 +9,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import uz.zokirbekov.registration.R;
@@ -22,6 +23,7 @@ public class PersonImageText extends ConstraintLayout {
     private Drawable backGround;
 
     private TextView textView;
+    private ImageView imageView;
 
     public void setText(String text)
     {
@@ -56,6 +58,11 @@ public class PersonImageText extends ConstraintLayout {
 
         text = g.getString(R.styleable.PersonImageText_text);
         textColor = g.getColor(R.styleable.PersonImageText_textColor,0);
+        backGround = g.getDrawable(R.styleable.PersonImageText_backGround);
+
+        if (backGround != null)
+            imageView.setBackground(backGround);
+
         textView.setText(text);
         textView.setTextColor(textColor);
     }
@@ -65,6 +72,6 @@ public class PersonImageText extends ConstraintLayout {
     {
         View v = inflate(getContext(), R.layout.layout_person_image_text,this);
         textView = v.findViewById(R.id.image_text);
-
+        imageView = v.findViewById(R.id.imageView);
     }
 }

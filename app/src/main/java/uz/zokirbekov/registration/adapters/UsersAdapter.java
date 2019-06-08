@@ -29,7 +29,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.VH> {
 
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = inflater.inflate(R.layout.layout_item_person,parent);
+        View v = inflater.inflate(R.layout.layout_item_person,parent,false);
         return new VH(v);
     }
 

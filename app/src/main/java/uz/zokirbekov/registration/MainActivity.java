@@ -1,8 +1,10 @@
 package uz.zokirbekov.registration;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,14 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import uz.zokirbekov.registration.fragments.AboutFragment;
 import uz.zokirbekov.registration.fragments.AddUserFragment;
 import uz.zokirbekov.registration.fragments.QrFragment;
 import uz.zokirbekov.registration.fragments.StatisticsFragment;
 import uz.zokirbekov.registration.fragments.UsersFragment;
+import uz.zokirbekov.registration.models.Person;
+import uz.zokirbekov.registration.ui.PersonImageText;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,12 +36,21 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.main_content)
     FrameLayout content;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    PersonImageText personImageText;
+
+    TextView textBall;
+    TextView textFullName;
+
     QrFragment qrFragment = new QrFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -44,7 +61,36 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View v = navigationView.getHeaderView(0);
+
+        personImageText = v.findViewById(R.id.person_image);
+        textBall = v.findViewById(R.id.textBall);
+        textFullName = v.findViewById(R.id.textFullName);
+
         navigationView.setNavigationItemSelectedListener(this);
+        ButterKnife.bind(this);
+        App app = ((App)getApplicationContext());
+        Person p = getIntent().getParcelableExtra("person");
+        app.setPerson(p);
+        setPersonInfos(p);
+        progressBar.getIndeterminateDrawable().setColorFilter(ActivityCompat.getColor(this,R.color.primaryDark2), PorterDuff.Mode.MULTIPLY);
+        switchFragment(new UsersFragment());
+    }
+
+    public void isProgress(boolean b)
+    {
+        if (b)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void setPersonInfos(Person p)
+    {
+        personImageText.setText(String.valueOf(p.getName().charAt(0)));
+        textBall.setText(String.valueOf(p.getBall()));
+        String fullName = p.getName() + " " + p.getSurname();
+        textFullName.setText(fullName);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class QR {
         return person;
     }
 
-    public Bitmap generateQrCode(Person p) throws WriterException
+    public Bitmap generateQrCode(Person p, int width, int height) throws WriterException
     {
         BarcodeEncoder encoder = new BarcodeEncoder();
         Bitmap bitmap = encoder.encodeBitmap(String.valueOf(p.getId()), BarcodeFormat.QR_CODE, 200,200);

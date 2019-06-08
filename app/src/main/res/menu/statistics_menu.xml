@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/statistics_year"
+        android:title="Year"/>
+    <item android:id="@+id/statistics_month"
+        android:title="Month"/>
+    <item android:id="@+id/statistics_weak"
+        android:title="Weak"/>
+    <item android:id="@+id/statistics_day"
+        android:title="Day"/>
+    <item android:id="@+id/statistics_all"
+        android:title="All"/>
+</menu>
